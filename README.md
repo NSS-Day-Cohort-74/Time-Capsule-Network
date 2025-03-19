@@ -46,27 +46,14 @@ Time Capsule Network combines social interaction, storytelling, and location-bas
    git clone https://github.com/[username]/time-capsule-network.git
    ```
 
-2. Set up backend environment:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
-
 3. Initialize frontend:
    ```bash
-   cd frontend
    npm install
    ```
 
-4. Start development servers:
-   ```bash
-   # Backend
-   python manage.py migrate
-   python manage.py runserver
+4. Start development server:
 
-   # Frontend
+   ```
    npm start
    ```
 
