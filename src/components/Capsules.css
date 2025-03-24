@@ -1,0 +1,13 @@
+.capsules {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.capsule {
+    padding: 1rem;
+    background-color: goldenrod;
+    color: limegreen;
+    border: 5px dotted aliceblue;
+    border-radius: 0.5rem;
+}
