@@ -29,6 +29,7 @@ export const ApplicationViews = () => {
             <Route element={<Authorized />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/allcapsules" element={<CapsuleList capsules={capsulesState} fetchCapsules={fetchCapsulesFromAPI} />} />
+                <Route path="/capsule/edit/:capsuleId" element={ <CapsuleForm/> } />
                 <Route path="/create" element={<CapsuleForm fetchCapsules={fetchCapsulesFromAPI} />} />
                 <Route path="/mine" element={<CapsuleList capsules={capsulesState} fetchCapsules={fetchCapsulesFromAPI} />} />
                 <Route path="*" element={<Home />} />

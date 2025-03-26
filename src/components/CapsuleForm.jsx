@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 export const CapsuleForm = ({ fetchCapsules }) => {
     const initialCapsuleState = {
-        openingDate: "", description: "", title: "",
-        status: 0, type: 0, x: 0, y: 0
+        opening_date: "", descriptions: "", title: "",
+        status: 0, type: 0, location_x: 0, location_y: 0
     }
     const [capsule, updateCapsuleProps] = useState(initialCapsuleState)
     const [capsuleTypes, updateCapsuleTypes] = useState([])
     const [capsuleStatuses, updateCapsuleStatuses] = useState([])
     const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        if (location.state !== null) {
+            updateCapsuleProps(location.state)
+        }
+      }, [location])
 
 
     useEffect(() => {
@@ -21,8 +28,8 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                     "Authorization": `Token ${JSON.parse(localStorage.getItem("capsule_token")).token}`
                 }
             })
-            if (!response.ok) throw new Error('Failed to fetch users');
-            const data = await response.json();
+            if (!response.ok) throw new Error('Failed to fetch users')
+            const data = await response.json()
             updateCapsuleTypes(data)
         }
 
@@ -33,8 +40,8 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                     "Authorization": `Token ${JSON.parse(localStorage.getItem("capsule_token")).token}`
                 }
             })
-            if (!response.ok) throw new Error('Failed to fetch users');
-            const data = await response.json();
+            if (!response.ok) throw new Error('Failed to fetch users')
+            const data = await response.json()
             updateCapsuleStatuses(data)
         }
 
@@ -45,16 +52,27 @@ export const CapsuleForm = ({ fetchCapsules }) => {
     const collectCapsule = async (evt) => {
         evt.preventDefault()
 
-        await fetch("http://localhost:8000/capsules", {
-            method: "POST",
-            headers: {
-                "Authorization": `Token ${JSON.parse(localStorage.getItem("capsule_token")).token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(capsule)
-        })
-
-        await fetchCapsules()
+        if (location.state !== null) {
+            // PUT operation
+            await fetch(`http://localhost:8000/capsules/${capsule.id}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(localStorage.getItem("capsule_token")).token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(capsule)
+            })
+        }
+        else {
+            await fetch("http://localhost:8000/capsules", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Token ${JSON.parse(localStorage.getItem("capsule_token")).token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(capsule)
+            })
+        }
         navigate("/allcapsules")
     }
 
@@ -71,15 +89,15 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                                 copy.title = e.target.value
                                 updateCapsuleProps(copy)
                             }}
-                            value={capsule.name} className="form-control" />
+                            value={capsule.title} className="form-control" />
                     </fieldset>
                     <fieldset className="mt-4">
                         <label htmlFor="capsule">Description:</label>
                         <textarea id="description" type="text"
-                            value={capsule.description}
+                            value={capsule.descriptions}
                             onChange={e => {
                                 const copy = { ...capsule }
-                                copy.description = e.target.value
+                                copy.descriptions= e.target.value
                                 updateCapsuleProps(copy)
                             }}
                         ></textarea>
@@ -89,6 +107,7 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                         <label htmlFor="type"> Type </label>
                         <br />
                         <select id="type" className="form-control"
+                            value={capsule.type}
                             onChange={e => {
                                 const copy = { ...capsule }
                                 copy.type = parseInt(e.target.value)
@@ -106,6 +125,7 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                         <label htmlFor="type"> Current status </label>
                         <br />
                         <select id="type" className="form-control"
+                            value={capsule.status}
                             onChange={e => {
                                 const copy = { ...capsule }
                                 copy.status = parseInt(e.target.value)
@@ -125,10 +145,10 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                         <input id="capsuleData" type="date"
                             onChange={e => {
                                 const copy = { ...capsule }
-                                copy.openingDate = e.target.value
+                                copy.opening_date = e.target.value
                                 updateCapsuleProps(copy)
                             }}
-                            value={capsule.openingDate} className="form-control" />
+                            value={capsule.opening_date} className="form-control" />
                     </fieldset>
 
                     <fieldset className="mt-4">
@@ -136,10 +156,10 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                         <input id="capsuleData" type="number"
                             onChange={e => {
                                 const copy = { ...capsule }
-                                copy.x = parseFloat(e.target.value)
+                                copy.location_x = parseFloat(e.target.value)
                                 updateCapsuleProps(copy)
                             }}
-                            value={capsule.x} className="form-control" />
+                            value={capsule.location_x} className="form-control" />
                     </fieldset>
 
                     <fieldset className="mt-4">
@@ -147,10 +167,10 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                         <input id="capsuleData" type="number"
                             onChange={e => {
                                 const copy = { ...capsule }
-                                copy.y = parseFloat(e.target.value)
+                                copy.location_y = parseFloat(e.target.value)
                                 updateCapsuleProps(copy)
                             }}
-                            value={capsule.y} className="form-control" />
+                            value={capsule.location_y} className="form-control" />
                     </fieldset>
 
 
