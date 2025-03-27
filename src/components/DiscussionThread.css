@@ -1,0 +1,60 @@
+.discussion-thread {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.thread-detail {
+    margin-top: 20px;
+}
+
+.thread-content {
+    padding: 16px;
+    margin-top: 16px;
+    background-color: #f8f9fa;
+}
+
+.threads-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.thread-card {
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.thread-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+}
+
+.comments-section {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.comment-card {
+    padding: 12px;
+    margin-bottom: 12px;
+    background-color: #f8f9fa;
+}
+
+.new-thread-form {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f8f9fa;
+}
+
+.text-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 4px;
+}

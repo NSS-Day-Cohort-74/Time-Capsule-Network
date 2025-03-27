@@ -6,6 +6,10 @@ import Home from "../pages/Home"
 import { CapsuleForm } from "./CapsuleForm.jsx"
 import { CapsuleList } from "./CapsuleList.jsx"
 import { Register } from '../pages/Register.jsx'
+import { StoryBrancher } from './StoryBrancher.jsx'
+import { PredictionVerifier } from './PredictionVerifier.jsx'
+import { DiscussionThread } from './DiscussionThread.jsx'
+import { PersonalTimeline } from './PersonalTimeline.jsx'
 
 
 export const ApplicationViews = () => {
@@ -32,6 +36,13 @@ export const ApplicationViews = () => {
                 <Route path="/capsule/edit/:capsuleId" element={ <CapsuleForm/> } />
                 <Route path="/create" element={<CapsuleForm fetchCapsules={fetchCapsulesFromAPI} />} />
                 <Route path="/mine" element={<CapsuleList capsules={capsulesState} fetchCapsules={fetchCapsulesFromAPI} />} />
+
+                {/* New routes for the added features */}
+                <Route path="/capsules/:capsuleId/story" element={<StoryBrancher />} />
+                <Route path="/capsules/:capsuleId/predictions" element={<PredictionVerifier />} />
+                <Route path="/capsules/:capsuleId/discussions" element={<DiscussionThread />} />
+                <Route path="/timeline" element={<PersonalTimeline />} />
+
                 <Route path="*" element={<Home />} />
             </Route>
         </Routes>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+import { APIProvider, Map,Marker} from '@vis.gl/react-google-maps'
 
-
-export const CapsuleForm = ({ fetchCapsules }) => {
+export const CapsuleForm = () => {
     const initialCapsuleState = {
         opening_date: "", descriptions: "", title: "",
         status: 0, type: 0, location_x: 0, location_y: 0
@@ -17,7 +17,7 @@ export const CapsuleForm = ({ fetchCapsules }) => {
         if (location.state !== null) {
             updateCapsuleProps(location.state)
         }
-      }, [location])
+    }, [location])
 
 
     useEffect(() => {
@@ -97,7 +97,7 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                             value={capsule.descriptions}
                             onChange={e => {
                                 const copy = { ...capsule }
-                                copy.descriptions= e.target.value
+                                copy.descriptions = e.target.value
                                 updateCapsuleProps(copy)
                             }}
                         ></textarea>
@@ -151,34 +151,39 @@ export const CapsuleForm = ({ fetchCapsules }) => {
                             value={capsule.opening_date} className="form-control" />
                     </fieldset>
 
-                    <fieldset className="mt-4">
-                        <label htmlFor="capsule">X Coordinate:</label>
-                        <input id="capsuleData" type="number"
-                            onChange={e => {
-                                const copy = { ...capsule }
-                                copy.location_x = parseFloat(e.target.value)
-                                updateCapsuleProps(copy)
-                            }}
-                            value={capsule.location_x} className="form-control" />
-                    </fieldset>
+                    <h2>Click on the map below to specify the location of the capsule</h2>
+                    <APIProvider apiKey={import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY}>
+                        <Map
+                            onClick={ev => {
+                                console.log("latitide = ", ev.detail.latLng.lat);
+                                console.log("longitude = ", ev.detail.latLng.lng);
 
-                    <fieldset className="mt-4">
-                        <label htmlFor="capsule">Y Coordinate:</label>
-                        <input id="capsuleData" type="number"
-                            onChange={e => {
                                 const copy = { ...capsule }
-                                copy.location_y = parseFloat(e.target.value)
+                                copy.location_x = parseFloat(ev.detail.latLng.lat)
+                                copy.location_y = parseFloat(ev.detail.latLng.lng)
                                 updateCapsuleProps(copy)
-                            }}
-                            value={capsule.location_y} className="form-control" />
-                    </fieldset>
+                              }}
+                            style={{ width: '100vw', height: '100vh' }}
+                            defaultCenter={{ lat: 35.83724852629752, lng: -86.20026278367558 }}
+                            defaultZoom={3}
+                            gestureHandling={'greedy'}
+                            disableDefaultUI={true}
+                        >
+                            {
+                                capsule.location_x !== 0 && capsule.location_y !== 0
+                                ? <Marker position={{ lat: capsule.location_x, lng: capsule.location_y }} />
+                                : <></>
+                                }
+                            }
+                        </Map>
 
+                    </APIProvider>
 
                     <fieldset>
                         <button type="submit"
                             onClick={collectCapsule}
                             className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
-                            Collect Capsule
+                            Create Capsule
                         </button>
                     </fieldset>
                 </form>

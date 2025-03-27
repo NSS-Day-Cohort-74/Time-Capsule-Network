@@ -6,13 +6,16 @@ export const NavBar = () => {
     return (
         <ul className="navbar pb-10 flex justify-between">
             <li className="navbar__item pl-10">
-                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/allrocks"}>All Capsules</NavLink>
+                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/allcapsules"}>All Capsules</NavLink>
             </li>
             <li className="navbar__item">
                 <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/create"}>Create a Capsule</NavLink>
             </li>
             <li className="navbar__item">
                 <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/mine"}>My Capsule</NavLink>
+            </li>
+            <li className="navbar__item">
+                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/timeline"}>My Timeline</NavLink>
             </li>
             {
                 (localStorage.getItem("capsule_token") !== null) ?
